@@ -23,7 +23,7 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-db();
+// db();
 
 require('./configs/googleStrategy');
 
