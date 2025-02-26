@@ -12,7 +12,9 @@ router.get('/google', passport.authenticate('google', {
         'https://www.googleapis.com/auth/gmail.readonly',
         'https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly',
         'https://www.googleapis.com/auth/classroom.coursework.me.readonly',
-    ] 
+    ],
+    accessType: 'offline',
+    prompt: 'consent'
 }));
 
 router.get('/google/callback', passport.authenticate('google', {
