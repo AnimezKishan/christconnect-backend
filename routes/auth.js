@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { googleOauth, googleMobileAuth } = require('../controllers/authController');
+// const { googleOauth, googleMobileAuth, handleGoogleAuth, refreshGoogleToken } = require('../controllers/authController');
 const passport = require('passport');
 const { google } = require('googleapis');
 
@@ -17,10 +17,15 @@ router.get('/google', passport.authenticate('google', {
     prompt: 'consent'
 }));
 
-router.get('/google/callback', passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/google',
-}));
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/google' }), (req, res) => {
+    const accessToken = req.user.accessToken;
+    console.log(accessToken);
+    
+    // Redirect to an intermediate webpage
+    const redirectUrl = `https://christconnect-backend.onrender.com/mobile-auth?access_token=${accessToken}`;
+    
+    res.redirect(redirectUrl);
+});
 
 // Token refresh endpoint
 router.post('/refresh-token', async (req, res) => {

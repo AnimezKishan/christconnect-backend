@@ -1,14 +1,13 @@
 // const { db } = require('../configs/firebase');
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
+// const { doc, setDoc, getDoc } = require('firebase/firestore');
 
-// export const createUser = async (userData) => {
+// const createUser = async (userData) => {
 //     try {
 //         const userRef = doc(db, 'users', userData.email);
 //         await setDoc(userRef, {
 //             email: userData.email,
 //             name: userData.name,
 //             photoURL: userData.photoURL,
-//             accessToken: userData.accessToken,
 //             isAdmin: false, // Default value
 //             createdAt: new Date().toISOString()
 //         });
@@ -19,7 +18,7 @@
 //     }
 // };
 
-// export const getUser = async (email) => {
+// const getUser = async (email) => {
 //     try {
 //         const userRef = doc(db, 'users', email);
 //         const userSnap = await getDoc(userRef);
@@ -31,4 +30,9 @@
 //         console.error('Error getting user:', error);
 //         return null;
 //     }
+// };
+
+// module.exports = {
+//     createUser,
+//     getUser
 // };

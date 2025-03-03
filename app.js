@@ -8,6 +8,7 @@ const classroomRoutes = require('./routes/classroom');
 const gmailRoutes = require('./routes/gmail');
 const axios = require('axios');
 const { getRecentCoursework } = require('./controllers/classroomController')
+
 const cors = require("cors");
 app.use(cors());
 
@@ -25,6 +26,7 @@ app.use(passport.session());
 
 // db();
 
+app.set('view engine', 'ejs');
 require('./configs/googleStrategy');
 
 app.use('/auth', authRoutes);
@@ -139,6 +141,10 @@ app.get('/profile', (req, res) => {
         return res.status(401).send('Not logged in');
     }
     res.send(req.user);
+});
+
+app.get('/mobile-auth', (req, res) => {
+    res.render('mobile-auth');
 });
 
 app.listen(3000);
