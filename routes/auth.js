@@ -17,7 +17,7 @@ router.get('/google', passport.authenticate('google', {
     prompt: 'consent'
 }));
 
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/google' }), (req, res) => {
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/google' }), (req, res) => {
     const accessToken = req.user.accessToken;
     console.log(accessToken);
     
