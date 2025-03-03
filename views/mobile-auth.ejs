@@ -12,7 +12,7 @@
 
             if (token) {
                 // Redirect to deep link
-                window.location.href = `christconnect://auth?access_token=${token}`;
+                window.location.href = `christ-connect://auth?access_token=${token}`;
             } else {
                 document.body.innerHTML = "<h1>Authentication failed</h1>";
             }
