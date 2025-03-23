@@ -9,7 +9,6 @@ const handleGoogleAuth = async (req, res) => {
     try {
         // Get the raw data from the request body
         const { userData } = req.body;
-        console.log('Received data:', userData);
         
         // Parse the data if it's a string
         let parsedUserData = userData;
@@ -25,7 +24,6 @@ const handleGoogleAuth = async (req, res) => {
             }
         }
 
-        console.log('\n\nParsed data:', parsedUserData);
         
         // Validate required fields
         if (!parsedUserData.email || !parsedUserData.id) {
