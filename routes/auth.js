@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { google } = require('googleapis');
+const { handleGoogleAuth } = require('../controllers/authController');
 
 router.get('/google', passport.authenticate('google', { 
     scope: [
@@ -25,5 +26,7 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
     
     res.redirect(redirectUrl);
 });
+
+router.post('/google/mobile', handleGoogleAuth);
 
 module.exports = router;
