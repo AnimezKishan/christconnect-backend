@@ -9,7 +9,12 @@ const createUser = async (userData) => {
             isAdmin: false, // Default value
             registrationNo: "2447___",
             createdAt: new Date().toISOString(),
-            googleId: userData.googleId || null
+            googleId: userData.googleId || null,
+            phone: null,
+            department: null,
+            course: null,
+            year: null,
+            semester: null,
         });
         return true;
     } catch (error) {
