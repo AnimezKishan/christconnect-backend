@@ -1,4 +1,4 @@
-const { createUser, getUser } = require('../models/User');
+const { createUser, getUser, deleteUser } = require('../models/User');
 
 /**
  * Handle Google authentication data
@@ -81,6 +81,49 @@ const handleGoogleAuth = async (req, res) => {
     }
 };
 
+/**
+ * Delete a user from Firestore
+ * @param {Object} req - Express request object with email in body
+ * @param {Object} res - Express response object
+ */
+const handleDeleteUser = async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        // Validate email
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email is required'
+            });
+        }
+
+        // Attempt to delete the user
+        const result = await deleteUser(email);
+        
+        if (result.success) {
+            return res.status(200).json({
+                success: true,
+                message: result.message
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: result.message,
+                error: result.error
+            });
+        }
+    } catch (error) {
+        console.error('Error in delete user handler:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
-    handleGoogleAuth
+    handleGoogleAuth,
+    handleDeleteUser
 };
