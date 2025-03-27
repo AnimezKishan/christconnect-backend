@@ -5,6 +5,7 @@ const expressSession = require('express-session');
 const authRoutes = require('./routes/auth');
 const classroomRoutes = require('./routes/classroom');
 const gmailRoutes = require('./routes/gmail');
+const postRoutes = require('./routes/post');
 const axios = require('axios');
 
 const cors = require("cors");
@@ -28,6 +29,7 @@ require('./configs/googleStrategy');
 app.use('/auth', authRoutes);
 app.use('/classroom', classroomRoutes);
 app.use('/gmail', gmailRoutes);
+app.use('/post', postRoutes);
 
 
 app.get('/', (req, res) => {
