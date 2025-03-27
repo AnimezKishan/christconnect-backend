@@ -1,4 +1,4 @@
-const { createPost, getAllPosts } = require('../models/Post');
+const { createPost, getAllPosts, deletePost } = require('../models/Post');
 
 /**
  * Create a new post
@@ -90,7 +90,50 @@ const handleGetAllPosts = async (req, res) => {
     }
 };
 
+/**
+ * Delete a post by ID
+ * @param {Object} req - Express request object with postId in body
+ * @param {Object} res - Express response object
+ */
+const handleDeletePost = async (req, res) => {
+    try {
+        const { postId } = req.body;
+        
+        // Validate postId
+        if (!postId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Post ID is required'
+            });
+        }
+        
+        // Delete the post
+        const result = await deletePost(postId);
+        
+        if (result.success) {
+            return res.status(200).json({
+                success: true,
+                message: 'Post deleted successfully'
+            });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: result.message,
+                error: result.error
+            });
+        }
+    } catch (error) {
+        console.error('Error in delete post handler:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     handleCreatePost,
-    handleGetAllPosts
+    handleGetAllPosts,
+    handleDeletePost
 };
