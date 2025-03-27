@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { google } = require('googleapis');
-const { handleGoogleAuth, handleDeleteUser } = require('../controllers/authController');
+const { handleGoogleAuth, handleDeleteUser, handleUpdateUser } = require('../controllers/authController');
 
 router.get('/google', passport.authenticate('google', { 
     scope: [
@@ -29,5 +29,6 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 
 router.post('/google/mobile', handleGoogleAuth);
 router.delete('/deleteUser', handleDeleteUser);
+router.patch('/updateUser', handleUpdateUser);
 
 module.exports = router;

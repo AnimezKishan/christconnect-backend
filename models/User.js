@@ -53,8 +53,43 @@ const deleteUser = async (email) => {
     }
 };
 
+/**
+ * Update a user in Firestore
+ * @param {Object} userData - User data with email and fields to update
+ * @returns {Promise<boolean>} - True if update was successful
+ */
+const updateUser = async (userData) => {
+    try {
+        if (!userData || !userData.email) {
+            console.error('Email is required for updating user');
+            return false;
+        }
+
+        const userRef = db.collection('users').where('email', '==', userData.email);
+        const snapshot = await userRef.get();
+
+        if (snapshot.empty) {
+            console.error('No user found with the provided email');
+            return false;
+        }
+
+        // Get the document ID
+        const docId = snapshot.docs[0].id;
+        
+        // Update the user document
+        await db.collection('users').doc(docId).update(userData);
+        
+        console.log(`User with email ${userData.email} updated successfully`);
+        return true;
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return false;
+    }
+};
+
 module.exports = {
     createUser,
     getUser,
-    deleteUser
+    deleteUser,
+    updateUser
 };

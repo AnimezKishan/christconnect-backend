@@ -1,4 +1,4 @@
-const { createUser, getUser, deleteUser } = require('../models/User');
+const { createUser, getUser, deleteUser, updateUser } = require('../models/User');
 
 /**
  * Handle Google authentication data
@@ -123,7 +123,77 @@ const handleDeleteUser = async (req, res) => {
     }
 };
 
+/**
+ * Update user profile details
+ * @param {Object} req - Express request object with userInfo in body
+ * @param {Object} res - Express response object
+ */
+const handleUpdateUser = async (req, res) => {
+    try {
+        const { userInfo } = req.body;
+        
+        // Parse the data if it's a string
+        let parsedUserInfo = userInfo;
+        if (typeof userInfo === 'string') {
+            try {
+                parsedUserInfo = JSON.parse(userInfo);
+            } catch (parseError) {
+                console.error('Error parsing user info:', parseError);
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid JSON data format'
+                });
+            }
+        }
+        
+        // Validate email
+        if (!parsedUserInfo.email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email is required'
+            });
+        }
+
+        // Check if user exists
+        const existingUser = await getUser(parsedUserInfo.email);
+        
+        if (!existingUser) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        // Update user with new info
+        const updated = await updateUser(parsedUserInfo);
+        
+        if (updated) {
+            // Get the updated user
+            const updatedUser = await getUser(parsedUserInfo.email);
+            
+            return res.status(200).json({
+                success: true,
+                message: 'User updated successfully',
+                user: updatedUser
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to update user'
+            });
+        }
+    } catch (error) {
+        console.error('Error in update user handler:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     handleGoogleAuth,
-    handleDeleteUser
+    handleDeleteUser,
+    handleUpdateUser
 };
