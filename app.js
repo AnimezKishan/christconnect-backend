@@ -47,4 +47,11 @@ app.get('/mobile-auth', (req, res) => {
     res.render('mobile-auth');
 });
 
+app.get('/privacy-policy', (req, res) => {
+    res.render('privacy-policy');
+})
+
+app.get('/terms-of-use', (req, res) => {
+    res.render('t-and-c');
+})
 app.listen(3000);
