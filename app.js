@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const classroomRoutes = require('./routes/classroom');
 const gmailRoutes = require('./routes/gmail');
 const postRoutes = require('./routes/post');
+const deletionRoutes = require('./routes/deletion');
 const axios = require('axios');
 
 const cors = require("cors");
@@ -30,6 +31,7 @@ app.use('/auth', authRoutes);
 app.use('/classroom', classroomRoutes);
 app.use('/gmail', gmailRoutes);
 app.use('/post', postRoutes);
+app.use('/deletion', deletionRoutes);
 
 
 app.get('/', (req, res) => {
@@ -54,4 +56,8 @@ app.get('/privacy-policy', (req, res) => {
 app.get('/terms-of-use', (req, res) => {
     res.render('t-and-c');
 })
+app.get('/request-account-deletion', (req, res) => {
+    res.render('account-deletion');
+});
+
 app.listen(3000);
